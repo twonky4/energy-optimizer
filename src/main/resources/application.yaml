@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: energy-optimizer
+  devtools:
+    restart:
+      additional-exclude: log/**
+  jmx:
+    default-domain: "${spring.application.name}"
+  web:
+    locale: en_EN
+    locale-resolver: fixed
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+logging:
+  file:
+    path: "log/"
+    name: "${logging.file.path}${spring.application.name}.log"
+    max-history: 30
+    max-size: 50MB
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
+
+app:
+  login:
+    user-name: ${LOGIN_USER:admin}
+    password: ${LOGIN_PASS:pass}

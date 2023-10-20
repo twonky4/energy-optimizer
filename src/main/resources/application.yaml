@@ -31,3 +31,19 @@ app:
   login:
     user-name: ${LOGIN_USER:admin}
     password: ${LOGIN_PASS:pass}
+  pvPlants:
+    - latitude: ${PV_PLANT_LATITUDE1}
+      longitude: ${PV_PLANT_LONGITUDE1}
+      declination: ${PV_PLANT_DECLINATION1}
+      azimuth: ${PV_PLANT_AZIMUTH1}
+      kwPeak: ${PV_PLANT_KWPEAK1}
+    - latitude: ${PV_PLANT_LATITUDE2}
+      longitude: ${PV_PLANT_LONGITUDE2}
+      declination: ${PV_PLANT_DECLINATION2}
+      azimuth: ${PV_PLANT_AZIMUTH2}
+      kwPeak: ${PV_PLANT_KWPEAK2}
+    - latitude: ${PV_PLANT_LATITUDE3}
+      longitude: ${PV_PLANT_LONGITUDE3}
+      declination: ${PV_PLANT_DECLINATION3}
+      azimuth: ${PV_PLANT_AZIMUTH3}
+      kwPeak: ${PV_PLANT_KWPEAK3}

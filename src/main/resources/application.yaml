@@ -30,6 +30,8 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
 app:
+  scheduling:
+    enable: true
   login:
     enabled: ${LOGIN_ENABLED:true}
     user-name: ${LOGIN_USER:admin}

@@ -10,6 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -25,21 +26,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "produced", "efficiency" }))
 @AllArgsConstructor(access = PRIVATE)
 public class InverterEfficiency {
-    @NotNull
-    @Id
-    @GeneratedValue(strategy = UUID)
-    private UUID id;
-    @NotNull
-    @DecimalMin("0")
-    @DecimalMax("20000")
-    @Digits(integer = 5, fraction = 0)
-    private BigDecimal produced;
-    @NotNull
-    @DecimalMin("0")
-    @DecimalMax("1")
-    @Digits(integer = 1, fraction = 5)
-    private BigDecimal efficiency;
+	@NotNull
+	@Id
+	@GeneratedValue(strategy = UUID)
+	private UUID id;
+	@NotNull
+	@DecimalMin("0")
+	@DecimalMax("20000")
+	@Digits(integer = 5, fraction = 0)
+	private BigDecimal produced;
+	@NotNull
+	@DecimalMin("0")
+	@DecimalMax("1")
+	@Digits(integer = 1, fraction = 5)
+	private BigDecimal efficiency;
 }

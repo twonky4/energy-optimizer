@@ -9,5 +9,4 @@ import de.viseit.energy.optimizer.repo.entity.InverterEfficiency;
 
 @Repository
 public interface InverterEfficiencyRepository extends JpaRepository<InverterEfficiency, UUID> {
-
 }

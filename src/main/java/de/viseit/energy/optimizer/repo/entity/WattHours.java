@@ -39,7 +39,7 @@ public class WattHours {
 	private ZonedDateTime time;
 	@NotNull
 	@DecimalMin("0")
-	@DecimalMax("20000")
-	@Digits(integer = 5, fraction = 0)
+	@DecimalMax("999999")
+	@Digits(integer = 6, fraction = 0)
 	private BigDecimal productionValue;
 }

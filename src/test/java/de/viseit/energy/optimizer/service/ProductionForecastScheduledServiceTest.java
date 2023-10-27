@@ -3,6 +3,7 @@ package de.viseit.energy.optimizer.service;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -138,7 +139,21 @@ class ProductionForecastScheduledServiceTest {
 						.wattHoursPeriod(wattHoursPeriod)
 						.watts(watts)
 						.build())
-				.build());
+				.build()).thenReturn(Forecast.builder()
+						.result(Result.builder()
+								.wattHours(new HashMap<>(wattHours))
+								.wattHoursDay(new HashMap<>(wattHoursDay))
+								.wattHoursPeriod(new HashMap<>(wattHoursPeriod))
+								.watts(new HashMap<>(watts))
+								.build())
+						.build()).thenReturn(Forecast.builder()
+								.result(Result.builder()
+										.wattHours(new HashMap<>(wattHours))
+										.wattHoursDay(new HashMap<>(wattHoursDay))
+										.wattHoursPeriod(new HashMap<>(wattHoursPeriod))
+										.watts(new HashMap<>(watts))
+										.build())
+								.build());
 
 		service = new ProductionForecastScheduledService(forecast, efficiency, config, wattsRepository, wattHoursDayRepository,
 				wattHoursPeriodRepository, wattHoursRepository);
@@ -152,6 +167,10 @@ class ProductionForecastScheduledServiceTest {
 		assertThat(wattsRepository.count()).isEqualTo(23);
 		assertThat(wattHoursDayRepository.count()).isEqualTo(2);
 		assertThat(wattHoursPeriodRepository.count()).isEqualTo(23);
-		assertThat(wattHoursRepository.count()).isEqualTo(23);
+		assertThat(wattHoursRepository.findAll())
+				.map(w -> w.getTime().toString(), w -> w.getProductionValue().toPlainString())
+				.filteredOn(t -> t.toList().get(0).equals("2023-10-27T08:00+02:00[Europe/Berlin]"))
+				.as("time", "value")
+				.contains(tuple("2023-10-27T08:00+02:00[Europe/Berlin]", "3.00"));
 	}
 }

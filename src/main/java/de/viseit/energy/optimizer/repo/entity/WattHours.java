@@ -4,6 +4,7 @@ import static jakarta.persistence.GenerationType.UUID;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -28,20 +29,17 @@ import lombok.Setter;
 @Entity
 @Table
 @AllArgsConstructor(access = PRIVATE)
-public class InverterEfficiency {
+public class WattHours {
 	@NotNull
 	@Id
 	@GeneratedValue(strategy = UUID)
 	private UUID id;
+	@NotNull
 	@Column(unique = true)
+	private ZonedDateTime time;
 	@NotNull
 	@DecimalMin("0")
 	@DecimalMax("20000")
 	@Digits(integer = 5, fraction = 0)
-	private BigDecimal produced;
-	@NotNull
-	@DecimalMin("0")
-	@DecimalMax("1")
-	@Digits(integer = 1, fraction = 5)
-	private BigDecimal efficiency;
+	private BigDecimal value;
 }

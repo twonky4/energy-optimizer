@@ -8,8 +8,8 @@ import de.viseit.energy.optimizer.controller.dto.PvPlant;
 
 @Component
 public class ProductionForecastReaderService {
-	public void read(PvPlant plant) {
-		Forecast forecast = new RestTemplate().getForObject(
+	public Forecast read(PvPlant plant) {
+		return new RestTemplate().getForObject(
 				"https://api.forecast.solar/estimate/{latitude}/{longitude}/{declination}/{azimuth}/{kwPeak}",
 				Forecast.class, plant.getLatitude(), plant.getLongitude(), plant.getDeclination(), plant.getAzimuth(),
 				plant.getKwPeak());

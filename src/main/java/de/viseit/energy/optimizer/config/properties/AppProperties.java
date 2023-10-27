@@ -23,7 +23,6 @@ public class AppProperties {
 	@Getter
 	@Setter
 	public static class Login {
-		private boolean enabled;
 		private String userName;
 		private String password;
 	}

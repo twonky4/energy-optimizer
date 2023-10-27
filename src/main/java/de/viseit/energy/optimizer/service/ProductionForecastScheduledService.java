@@ -3,6 +3,7 @@ package de.viseit.energy.optimizer.service;
 import static de.viseit.energy.optimizer.config.ZonedDateTimeConverter.ZONE_EUROPE_BERLIN;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -123,6 +124,8 @@ public class ProductionForecastScheduledService {
 	}
 
 	private ZonedDateTime parseDate(String str) {
-		return LocalDateTime.parse(str, DATE_FORMATTER).atZone(ZONE_EUROPE_BERLIN);
+		LocalDate localDate = LocalDate.parse(str, DATE_FORMATTER);
+
+		return localDate.atStartOfDay(ZONE_EUROPE_BERLIN);
 	}
 }

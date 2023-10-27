@@ -26,13 +26,13 @@ public class ProductionForecastWattHoursDayController {
 	private final ProductionForecastWattHoursDayRepository repository;
 
 	@GetMapping(path = "/forecast/watt-hours-day/{date}/")
-	public ResponseEntity<Map<String, Object>> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
+	public ResponseEntity<Map<String, Number>> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
 		ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
 
 		Optional<WattHoursDay> value = repository.findByTime(dateTime);
 		if (value.isPresent()) {
 			return ResponseEntity.ok(Map.of("time", value.get().getTime().toEpochSecond(), "value", value.get().getProductionValue()
-					.stripTrailingZeros()));
+					.intValue()));
 		} else {
 			return ResponseEntity.notFound().build();
 		}

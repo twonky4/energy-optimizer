@@ -4,7 +4,6 @@ import static de.viseit.energy.optimizer.config.ZonedDateTimeConverter.ZONE_EURO
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -25,10 +24,10 @@ public class ProductionForecastWattsController {
 	private final ProductionForecastWattsRepository repository;
 
 	@GetMapping(path = "/forecast/watts/{date}/")
-	public Map<Long, BigDecimal> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
+	public Map<Long, Integer> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
 		ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
 
 		return repository.findByTimeBetween(dateTime, dateTime.plusDays(1)).stream()
-				.collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().stripTrailingZeros()));
+				.collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().intValue()));
 	}
 }

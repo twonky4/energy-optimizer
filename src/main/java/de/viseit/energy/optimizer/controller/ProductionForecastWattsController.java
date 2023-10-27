@@ -6,6 +6,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,7 @@ public class ProductionForecastWattsController {
 	public Map<Long, Integer> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
 		ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
 
-		return repository.findByTimeBetween(dateTime, dateTime.plusDays(1)).stream()
-				.collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().intValue()));
+		return repository.findByTimeBetweenOrderByTime(dateTime, dateTime.plusDays(1)).stream()
+				.collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().intValue(), (x, y) -> y, LinkedHashMap::new));
 	}
 }

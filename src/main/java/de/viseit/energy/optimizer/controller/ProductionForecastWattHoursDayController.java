@@ -5,6 +5,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,8 +32,10 @@ public class ProductionForecastWattHoursDayController {
 
 		Optional<WattHoursDay> value = repository.findByTime(dateTime);
 		if (value.isPresent()) {
-			return ResponseEntity.ok(Map.of("time", value.get().getTime().toEpochSecond(), "value", value.get().getProductionValue()
-					.intValue()));
+			Map<String, Number> map = new LinkedHashMap<>();
+			map.put("time", value.get().getTime().toEpochSecond());
+			map.put("value", value.get().getProductionValue().intValue());
+			return ResponseEntity.ok(map);
 		} else {
 			return ResponseEntity.notFound().build();
 		}

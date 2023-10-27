@@ -14,5 +14,5 @@ import de.viseit.energy.optimizer.repo.entity.WattHours;
 public interface ProductionForecastWattHoursRepository extends JpaRepository<WattHours, UUID> {
 	public Optional<WattHours> findByTime(ZonedDateTime time);
 
-	public List<WattHours> findByTimeBetween(ZonedDateTime from, ZonedDateTime to);
+	public List<WattHours> findByTimeBetweenOrderByTime(ZonedDateTime from, ZonedDateTime to);
 }

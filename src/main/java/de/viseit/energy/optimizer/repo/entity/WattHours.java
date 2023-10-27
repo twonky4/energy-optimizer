@@ -12,9 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +37,5 @@ public class WattHours {
 	private ZonedDateTime time;
 	@NotNull
 	@DecimalMin("0")
-	@DecimalMax("999999")
-	@Digits(integer = 6, fraction = 0)
 	private BigDecimal productionValue;
 }

@@ -1,6 +1,7 @@
 package de.viseit.energy.optimizer.service;
 
 import static de.viseit.energy.optimizer.config.ZonedDateTimeConverter.ZONE_EUROPE_BERLIN;
+import static lombok.AccessLevel.PACKAGE;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +27,7 @@ import de.viseit.energy.optimizer.repo.entity.WattHoursDay;
 import de.viseit.energy.optimizer.repo.entity.WattHoursPeriod;
 import de.viseit.energy.optimizer.repo.entity.Watts;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -42,8 +45,16 @@ public class ProductionForecastScheduledService {
 	private final ProductionForecastWattHoursPeriodRepository wattHoursPeriodRepository;
 	private final ProductionForecastWattHoursRepository wattHoursRepository;
 
+	@Value("${app.scheduled.enabled:false}")
+	@Setter(PACKAGE)
+	private boolean enabled;
+
 	@Scheduled(fixedDelay = 3600000)
 	public void read() {
+		if (!enabled) {
+			log.warn("scheduler not enabled");
+			return;
+		}
 		log.info("read PV");
 
 		config.getPvPlants()

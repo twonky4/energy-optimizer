@@ -33,22 +33,24 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss.SSS,Europe/Berlin} [%thread] %-5level %logger{36} : %msg%n"
 app:
+  scheduled:
+    enabled: ${ENABLE_SCHEDULER:false}
   login:
     user-name: ${LOGIN_USER:admin}
     password: ${LOGIN_PASS:pass}
   pvPlants:
-    - latitude: ${PV_PLANT_LATITUDE1:54.9}
-      longitude: ${PV_PLANT_LONGITUDE1:25.3}
-      declination: ${PV_PLANT_DECLINATION1:37}
-      azimuth: ${PV_PLANT_AZIMUTH1:0}
+    - latitude: ${PV_PLANT_LATITUDE1:1}
+      longitude: ${PV_PLANT_LONGITUDE1:1}
+      declination: ${PV_PLANT_DECLINATION1:1}
+      azimuth: ${PV_PLANT_AZIMUTH1:1}
       kwPeak: ${PV_PLANT_KWPEAK1:1}
-    - latitude: ${PV_PLANT_LATITUDE2:54.9}
-      longitude: ${PV_PLANT_LONGITUDE2:25.3}
-      declination: ${PV_PLANT_DECLINATION2:37}
-      azimuth: ${PV_PLANT_AZIMUTH2:0}
-      kwPeak: ${PV_PLANT_KWPEAK2:1}
-    - latitude: ${PV_PLANT_LATITUDE3:54.9}
-      longitude: ${PV_PLANT_LONGITUDE3:25.3}
-      declination: ${PV_PLANT_DECLINATION3:37}
-      azimuth: ${PV_PLANT_AZIMUTH3:0}
-      kwPeak: ${PV_PLANT_KWPEAK3:1}
+    - latitude: ${PV_PLANT_LATITUDE2:2}
+      longitude: ${PV_PLANT_LONGITUDE2:2}
+      declination: ${PV_PLANT_DECLINATION2:2}
+      azimuth: ${PV_PLANT_AZIMUTH2:2}
+      kwPeak: ${PV_PLANT_KWPEAK2:2}
+    - latitude: ${PV_PLANT_LATITUDE3:3}
+      longitude: ${PV_PLANT_LONGITUDE3:3}
+      declination: ${PV_PLANT_DECLINATION3:3}
+      azimuth: ${PV_PLANT_AZIMUTH3:3}
+      kwPeak: ${PV_PLANT_KWPEAK3:3}

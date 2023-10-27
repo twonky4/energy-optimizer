@@ -41,5 +41,5 @@ public class WattHours {
 	@DecimalMin("0")
 	@DecimalMax("20000")
 	@Digits(integer = 5, fraction = 0)
-	private BigDecimal value;
+	private BigDecimal productionValue;
 }

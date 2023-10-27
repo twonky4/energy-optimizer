@@ -74,10 +74,10 @@ public class ProductionForecastScheduledService {
 		ZonedDateTime time = parseDateTime(i.getKey());
 		WattHours entity = wattHoursRepository.findByTime(time)
 				.map(e -> {
-					e.setValue(i.getValue());
+					e.setProductionValue(i.getValue());
 					return e;
 				})
-				.orElseGet(() -> WattHours.builder().time(time).value(i.getValue()).build());
+				.orElseGet(() -> WattHours.builder().time(time).productionValue(i.getValue()).build());
 		wattHoursRepository.save(entity);
 	}
 
@@ -85,10 +85,10 @@ public class ProductionForecastScheduledService {
 		ZonedDateTime time = parseDate(i.getKey());
 		WattHoursDay entity = wattHoursDayRepository.findByTime(time)
 				.map(e -> {
-					e.setValue(i.getValue());
+					e.setProductionValue(i.getValue());
 					return e;
 				})
-				.orElseGet(() -> WattHoursDay.builder().time(time).value(i.getValue()).build());
+				.orElseGet(() -> WattHoursDay.builder().time(time).productionValue(i.getValue()).build());
 		wattHoursDayRepository.save(entity);
 	}
 
@@ -96,10 +96,10 @@ public class ProductionForecastScheduledService {
 		ZonedDateTime time = parseDateTime(i.getKey());
 		WattHoursPeriod entity = wattHoursPeriodRepository.findByTime(time)
 				.map(e -> {
-					e.setValue(i.getValue());
+					e.setProductionValue(i.getValue());
 					return e;
 				})
-				.orElseGet(() -> WattHoursPeriod.builder().time(time).value(i.getValue()).build());
+				.orElseGet(() -> WattHoursPeriod.builder().time(time).productionValue(i.getValue()).build());
 		wattHoursPeriodRepository.save(entity);
 	}
 
@@ -107,10 +107,10 @@ public class ProductionForecastScheduledService {
 		ZonedDateTime time = parseDateTime(i.getKey());
 		Watts entity = wattsRepository.findByTime(time)
 				.map(e -> {
-					e.setValue(i.getValue());
+					e.setProductionValue(i.getValue());
 					return e;
 				})
-				.orElseGet(() -> Watts.builder().time(time).value(i.getValue()).build());
+				.orElseGet(() -> Watts.builder().time(time).productionValue(i.getValue()).build());
 		wattsRepository.save(entity);
 	}
 

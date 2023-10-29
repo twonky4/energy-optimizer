@@ -63,6 +63,6 @@ public class InverterEfficiencyService {
     }
 
     public List<InverterEfficiency> get() {
-        return repository.findOrderByProduced();
+        return repository.findAllByProduced();
     }
 }

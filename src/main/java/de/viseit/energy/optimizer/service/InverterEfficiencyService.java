@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import de.viseit.energy.optimizer.controller.dto.InverterRecord;
@@ -63,6 +64,7 @@ public class InverterEfficiencyService {
     }
 
     public List<InverterEfficiency> get() {
-        return repository.findAllByProduced();
+        return repository.findAll(Sort.by("produced"));
+
     }
 }

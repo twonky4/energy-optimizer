@@ -1,7 +1,6 @@
 package de.viseit.energy.optimizer.repo;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +16,4 @@ public interface InverterEfficiencyRepository extends JpaRepository<InverterEffi
     Optional<InverterEfficiency> findFirstByProducedGreaterThanOrderByProduced(BigDecimal produced);
 
     Optional<InverterEfficiency> findFirstByProducedLessThanOrderByProducedDesc(BigDecimal produced);
-
-    List<InverterEfficiency> findAllByProduced();
 }

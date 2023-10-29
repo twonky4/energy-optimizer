@@ -32,12 +32,14 @@ public class InverterEfficiencyService {
             efficiency = ZERO;
         }
 
-        if (repository.findByProduced(produced).isEmpty()) {
-            repository.save(InverterEfficiency.builder()
-                    .efficiency(efficiency)
-                    .produced(produced)
-                    .build());
-        }
+        repository.findByProduced(produced)
+                .ifPresentOrElse(result -> {
+                    result.setEfficiency(result.getEfficiency().min(efficiency));
+                    repository.save(result);
+                }, () -> repository.save(InverterEfficiency.builder()
+                        .efficiency(efficiency)
+                        .produced(produced)
+                        .build()));
     }
 
     public BigDecimal apply(BigDecimal produced) {

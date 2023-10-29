@@ -17,22 +17,24 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	private final AppProperties properties;
+    private final AppProperties properties;
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
-				.httpBasic(withDefaults());
-		return http.build();
-	}
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/v1/inverter/csv").permitAll()
+                        .anyRequest().authenticated())
+                .httpBasic(withDefaults());
+        return http.build();
+    }
 
-	@Bean
-	public InMemoryUserDetailsManager userDetailsService() {
-		return new InMemoryUserDetailsManager(
-				User.withUsername(properties.getLogin().getUserName())
-						.password("{noop}" + properties.getLogin().getPassword())
-						.roles("USER_ROLE")
-						.build());
-	}
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+        return new InMemoryUserDetailsManager(
+                User.withUsername(properties.getLogin().getUserName())
+                        .password("{noop}" + properties.getLogin().getPassword())
+                        .roles("USER_ROLE")
+                        .build());
+    }
 }

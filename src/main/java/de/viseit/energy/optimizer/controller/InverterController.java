@@ -1,5 +1,6 @@
 package de.viseit.energy.optimizer.controller;
 
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.LinkedHashMap;
@@ -30,5 +31,12 @@ public class InverterController {
     public Map<Integer, Double> getInverterRecords() {
         return service.get().stream()
                 .collect(toMap(e -> e.getProduced().intValue(), e -> e.getEfficiency().doubleValue(), (x, y) -> y, LinkedHashMap::new));
+    }
+
+    @GetMapping(path = "/inverter/csv")
+    public String getInverterRecordsAsCsv() {
+        return service.get().stream()
+                .map(e -> e.getProduced().intValue() + "," + e.getEfficiency().toPlainString())
+                .collect(joining("\n"));
     }
 }

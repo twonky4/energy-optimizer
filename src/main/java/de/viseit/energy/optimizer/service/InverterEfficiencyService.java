@@ -4,6 +4,7 @@ import static java.math.BigDecimal.ZERO;
 import static java.math.RoundingMode.HALF_UP;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -59,5 +60,9 @@ public class InverterEfficiencyService {
                 .map(e -> e.getEfficiency())
                 .map(b -> b.multiply(produced).setScale(0, HALF_UP))
                 .orElse(produced);
+    }
+
+    public List<InverterEfficiency> get() {
+        return repository.findAll();
     }
 }

@@ -2,6 +2,7 @@ package de.viseit.energy.optimizer.controller;
 
 import static java.util.stream.Collectors.toMap;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,6 @@ public class InverterController {
     @GetMapping(path = "/inverter")
     public Map<Integer, Double> getInverterRecords() {
         return service.get().stream()
-                .collect(toMap(e -> e.getProduced().intValue(), e -> e.getEfficiency().doubleValue()));
+                .collect(toMap(e -> e.getProduced().intValue(), e -> e.getEfficiency().doubleValue(), (x, y) -> y, LinkedHashMap::new));
     }
 }

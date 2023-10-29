@@ -16,45 +16,48 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class InverterEfficiencyService {
-	private final InverterEfficiencyRepository repository;
+    private final InverterEfficiencyRepository repository;
 
-	public void add(InverterRecord entry) {
-		BigDecimal produced = entry.getProduced()
-				.stream()
-				.reduce(ZERO, BigDecimal::add);
+    public void add(InverterRecord entry) {
+        BigDecimal produced = entry.getProduced()
+                .stream()
+                .reduce(ZERO, BigDecimal::add);
 
-		BigDecimal efficiency;
-		if (produced.compareTo(ZERO) != 0) {
-			efficiency = entry.getFeedIn().divide(produced, 5, HALF_UP);
-		} else {
-			efficiency = ZERO;
-		}
+        BigDecimal efficiency;
+        if (produced.compareTo(ZERO) != 0) {
+            efficiency = entry.getFeedIn().divide(produced, 5, HALF_UP);
+        } else {
+            efficiency = ZERO;
+        }
 
-		repository.save(InverterEfficiency.builder()
-				.efficiency(efficiency)
-				.produced(produced)
-				.build());
-	}
+        if (repository.findByProduced(produced).isEmpty()) {
+            repository.save(InverterEfficiency.builder()
+                    .efficiency(efficiency)
+                    .produced(produced)
+                    .build());
+        }
+    }
 
-	public BigDecimal apply(BigDecimal produced) {
-		return repository.findByProduced(produced)
-				.or(() -> {
-					Optional<InverterEfficiency> previosValue = repository.findFirstByProducedLessThanOrderByProducedDesc(produced);
-					Optional<InverterEfficiency> nextValue = repository.findFirstByProducedGreaterThanOrderByProduced(produced);
+    public BigDecimal apply(BigDecimal produced) {
+        return repository.findByProduced(produced)
+                .or(() -> {
+                    Optional<InverterEfficiency> previosValue = repository.findFirstByProducedLessThanOrderByProducedDesc(produced);
+                    Optional<InverterEfficiency> nextValue = repository.findFirstByProducedGreaterThanOrderByProduced(produced);
 
-					if (previosValue.isPresent() && nextValue.isPresent()) {
-						BigDecimal efficiency = nextValue.get().getEfficiency().subtract(previosValue.get().getEfficiency()).multiply(
-								produced.subtract(previosValue.get().getProduced()).divide(nextValue.get().getProduced().subtract(
-										previosValue.get().getProduced()), 12, HALF_UP)).add(previosValue.get().getEfficiency());
-						return Optional.of(InverterEfficiency.builder()
-								.produced(produced)
-								.efficiency(efficiency)
-								.build());
-					}
-					return Optional.empty();
-				})
-				.map(e -> e.getEfficiency())
-				.map(b -> b.multiply(produced).setScale(0, HALF_UP))
-				.orElse(produced);
-	}
+                    if (previosValue.isPresent() && nextValue.isPresent()) {
+                        BigDecimal efficiency = nextValue.get().getEfficiency().subtract(previosValue.get().getEfficiency()).multiply(
+                                produced.subtract(previosValue.get().getProduced()).divide(nextValue.get().getProduced().subtract(
+                                        previosValue.get().getProduced()), 12, HALF_UP))
+                                .add(previosValue.get().getEfficiency());
+                        return Optional.of(InverterEfficiency.builder()
+                                .produced(produced)
+                                .efficiency(efficiency)
+                                .build());
+                    }
+                    return Optional.empty();
+                })
+                .map(e -> e.getEfficiency())
+                .map(b -> b.multiply(produced).setScale(0, HALF_UP))
+                .orElse(produced);
+    }
 }

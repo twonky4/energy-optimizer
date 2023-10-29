@@ -18,5 +18,5 @@ public interface InverterEfficiencyRepository extends JpaRepository<InverterEffi
 
     Optional<InverterEfficiency> findFirstByProducedLessThanOrderByProducedDesc(BigDecimal produced);
 
-    List<InverterEfficiency> findAllOrderByProduced();
+    List<InverterEfficiency> findOrderByProduced();
 }

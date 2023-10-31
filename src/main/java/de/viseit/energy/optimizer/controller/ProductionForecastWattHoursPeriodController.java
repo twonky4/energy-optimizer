@@ -7,6 +7,7 @@ import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -36,9 +37,10 @@ public class ProductionForecastWattHoursPeriodController {
     @GetMapping(path = "/forecast/watt-hours-period/{date}/csv")
     public String getCsv(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
         ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
+        DateTimeFormatter formatPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         return repository.findByTimeBetweenOrderByTime(dateTime, dateTime.plusDays(1)).stream()
-                .map(w -> w.getTime().toOffsetDateTime().toString() + "," + w.getProductionValue().intValue())
+                .map(w -> w.getTime().format(formatPattern) + "," + w.getProductionValue().intValue())
                 .collect(joining("\n"));
     }
 }

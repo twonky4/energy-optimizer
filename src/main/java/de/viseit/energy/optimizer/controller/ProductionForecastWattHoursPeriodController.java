@@ -1,6 +1,7 @@
 package de.viseit.energy.optimizer.controller;
 
 import static de.viseit.energy.optimizer.config.ZonedDateTimeConverter.ZONE_EUROPE_BERLIN;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.format.annotation.DateTimeFormat.ISO.DATE;
 
@@ -22,13 +23,22 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/v1")
 public class ProductionForecastWattHoursPeriodController {
-	private final ProductionForecastWattHoursPeriodRepository repository;
+    private final ProductionForecastWattHoursPeriodRepository repository;
 
-	@GetMapping(path = "/forecast/watt-hours-period/{date}/")
-	public Map<Long, Integer> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
-		ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
+    @GetMapping(path = "/forecast/watt-hours-period/{date}/")
+    public Map<Long, Integer> get(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
+        ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
 
-		return repository.findByTimeBetweenOrderByTime(dateTime, dateTime.plusDays(1)).stream()
-				.collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().intValue(), (x, y) -> y, LinkedHashMap::new));
-	}
+        return repository.findByTimeBetweenOrderByTime(dateTime, dateTime.plusDays(1)).stream()
+                .collect(toMap(w -> w.getTime().toEpochSecond(), w -> w.getProductionValue().intValue(), (x, y) -> y, LinkedHashMap::new));
+    }
+
+    @GetMapping(path = "/forecast/watt-hours-period/{date}/csv")
+    public String getCsv(@PathVariable("date") @DateTimeFormat(iso = DATE) LocalDate date) {
+        ZonedDateTime dateTime = date.atStartOfDay(ZONE_EUROPE_BERLIN);
+
+        return repository.findByTimeBetweenOrderByTime(dateTime, dateTime.plusDays(1)).stream()
+                .map(w -> w.getTime().toOffsetDateTime().toString() + "," + w.getProductionValue().intValue())
+                .collect(joining("\n"));
+    }
 }

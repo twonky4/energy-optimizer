@@ -2,6 +2,7 @@ package de.viseit.energy.optimizer.repo.entity;
 
 import static jakarta.persistence.GenerationType.UUID;
 import static lombok.AccessLevel.PRIVATE;
+import static lombok.AccessLevel.PROTECTED;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -23,7 +24,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = PROTECTED)
 @Entity
 @Table
 @AllArgsConstructor(access = PRIVATE)

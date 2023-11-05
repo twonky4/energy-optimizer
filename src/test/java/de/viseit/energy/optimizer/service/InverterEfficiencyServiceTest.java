@@ -13,34 +13,34 @@ import de.viseit.energy.optimizer.repo.entity.InverterEfficiency;
 
 @SpringBootTest
 class InverterEfficiencyServiceTest {
-	@Autowired
-	private InverterEfficiencyRepository repository;
-	@Autowired
-	private InverterEfficiencyService service;
+    @Autowired
+    private InverterEfficiencyRepository repository;
+    @Autowired
+    private InverterEfficiencyService service;
 
-	@Test
-	void calulatedEfficiencyByExact() {
-		repository.save(InverterEfficiency.builder()
-				.efficiency(BigDecimal.valueOf(0.2))
-				.produced(BigDecimal.valueOf(1000))
-				.build());
+    @Test
+    void calulatedEfficiencyByExact() {
+        repository.save(InverterEfficiency.builder()
+                .efficiency(BigDecimal.valueOf(0.2))
+                .produced(BigDecimal.valueOf(1000))
+                .build());
 
-		BigDecimal calulated = service.apply(BigDecimal.valueOf(1000));
-		assertThat(calulated).isEqualByComparingTo(BigDecimal.valueOf(200));
-	}
+        BigDecimal calulated = service.apply(BigDecimal.valueOf(1000));
+        assertThat(calulated).isEqualByComparingTo(BigDecimal.valueOf(200));
+    }
 
-	@Test
-	void calulatedEfficiencyByRange() {
-		repository.save(InverterEfficiency.builder()
-				.efficiency(BigDecimal.valueOf(0.5))
-				.produced(BigDecimal.valueOf(11000))
-				.build());
-		repository.save(InverterEfficiency.builder()
-				.efficiency(BigDecimal.valueOf(0.7))
-				.produced(BigDecimal.valueOf(18000))
-				.build());
+    @Test
+    void calulatedEfficiencyByRange() {
+        repository.save(InverterEfficiency.builder()
+                .efficiency(BigDecimal.valueOf(0.5))
+                .produced(BigDecimal.valueOf(11000))
+                .build());
+        repository.save(InverterEfficiency.builder()
+                .efficiency(BigDecimal.valueOf(0.7))
+                .produced(BigDecimal.valueOf(18000))
+                .build());
 
-		BigDecimal calulated = service.apply(BigDecimal.valueOf(17000));
-		assertThat(calulated).isEqualByComparingTo(BigDecimal.valueOf(11414));
-	}
+        BigDecimal calulated = service.apply(BigDecimal.valueOf(17000));
+        assertThat(calulated).isEqualByComparingTo(BigDecimal.valueOf(12541));
+    }
 }

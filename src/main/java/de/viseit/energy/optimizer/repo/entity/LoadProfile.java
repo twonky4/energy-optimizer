@@ -34,7 +34,7 @@ public class LoadProfile {
     private UUID id;
 
     @NotNull
-    private int hour;
+    private int hourNo;
 
     @NotNull
     private BigDecimal wattHours;

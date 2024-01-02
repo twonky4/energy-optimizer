@@ -18,6 +18,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
 management:
   endpoints:
     web:

@@ -18,7 +18,7 @@ repositories {
 
 ext {
     lombokVersion = '1.18.32'
-    assertjVersion = '3.25.3'
+    assertjVersion = '3.26.0'
 }
 
 dependencies {
